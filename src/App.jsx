@@ -117,6 +117,69 @@ const allProjects = [
   },
 ]
 
+const featuredProjects = [
+  {
+    file: 'wedge-bbq.jpg',
+    title: 'The Wedge BBQ',
+    slug: 'the-wedge-bbq-logo',
+    category: 'Logo Design / Branding',
+  },
+  {
+    file: 'money-musical.jpg',
+    title: 'Money The Musical',
+    slug: 'money-the-musical-logo',
+    category: 'Logo Design / Branding',
+  },
+  {
+    file: 'hope-for-lupus-design/thumbnail.webp',
+    title: 'Hope For Lupus x Banana Peel',
+    slug: 'hope-for-lupus-slippers-design',
+    category: 'Product Design / Campaign',
+  },
+  {
+    file: 'DOT-slippers-design/thumbnail.webp',
+    title: 'Department of Tourism x Banana Peel',
+    slug: 'department-of-tourism-banana-peel-flip-flop-design',
+    category: 'Product Design / Campaign',
+  },
+  {
+    file: 'Ada Logo.jpg',
+    title: 'ADA Logo',
+    slug: 'ada-logo',
+    category: 'Logo Design / Branding',
+  },
+  {
+    file: 'daikin-graphics/thumbnail.webp',
+    title: 'Daikin Philippines',
+    slug: 'daikin-philippines-graphic',
+    category: 'Graphic Design / Campaign',
+  },
+  {
+    file: 'Shopee Campaign.jpg',
+    title: 'Shopee Campaign',
+    slug: 'shopee-campaign',
+    category: 'Campaign Design',
+  },
+  {
+    file: 'Lazada Campaign.jpg',
+    title: 'Lazada Campaign',
+    slug: 'lazada-campaign',
+    category: 'Campaign Design',
+  },
+  {
+    file: 'Big Energy Logo.jpg',
+    title: 'Big Energy Logo',
+    slug: 'big-energy-logo',
+    category: 'Logo Design / Branding',
+  },
+  {
+    file: 'Pace Peace Logo.jpg',
+    title: 'PacePeace Logo',
+    slug: 'pacepeace-logo',
+    category: 'Logo Design / Branding',
+  },
+]
+
 const projectDetails = {
   'the-wedge-bbq-logo': {
     title: 'The Wedge BBQ Logo',
@@ -2279,6 +2342,7 @@ function SiteHeader({ isHome = false }) {
   const sectionPrefix = isHome ? '' : '/'
   const currentPath = window.location.pathname
   const [currentHash, setCurrentHash] = useState(() => window.location.hash)
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   useEffect(() => {
     const handleHashChange = () => setCurrentHash(window.location.hash)
@@ -2286,6 +2350,33 @@ function SiteHeader({ isHome = false }) {
     window.addEventListener('hashchange', handleHashChange)
     return () => window.removeEventListener('hashchange', handleHashChange)
   }, [])
+
+  useEffect(() => {
+    if (!isMobileMenuOpen) return
+
+    const previousBodyOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+
+    const closeOnOutsideClick = (event) => {
+      if (!event.target.closest('.site-header')) {
+        setIsMobileMenuOpen(false)
+      }
+    }
+    const closeOnEscape = (event) => {
+      if (event.key === 'Escape') {
+        setIsMobileMenuOpen(false)
+      }
+    }
+
+    document.addEventListener('pointerdown', closeOnOutsideClick)
+    document.addEventListener('keydown', closeOnEscape)
+
+    return () => {
+      document.body.style.overflow = previousBodyOverflow
+      document.removeEventListener('pointerdown', closeOnOutsideClick)
+      document.removeEventListener('keydown', closeOnEscape)
+    }
+  }, [isMobileMenuOpen])
 
   return (
     <header className="site-header">
@@ -2297,7 +2388,24 @@ function SiteHeader({ isHome = false }) {
         <img src="/logo/ian-logo-light.png" alt="" />
       </a>
 
-      <nav aria-label="Primary navigation">
+      <button
+        className={`mobile-menu-toggle${isMobileMenuOpen ? ' is-open' : ''}`}
+        type="button"
+        aria-label={isMobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+        aria-controls="primary-navigation"
+        aria-expanded={isMobileMenuOpen}
+        onClick={() => setIsMobileMenuOpen((isOpen) => !isOpen)}
+      >
+        <span />
+        <span />
+        <span />
+      </button>
+
+      <nav
+        className={`primary-navigation${isMobileMenuOpen ? ' is-open' : ''}`}
+        id="primary-navigation"
+        aria-label="Primary navigation"
+      >
         <ul className="nav-list">
           {navItems.map((item) => (
             <li key={item}>
@@ -2308,7 +2416,7 @@ function SiteHeader({ isHome = false }) {
                       ? '#top'
                       : '/'
                     : item === 'Projects'
-                    ? '/projects'
+                    ? `${sectionPrefix}#projects`
                     : `${sectionPrefix}#${item.toLowerCase()}`
                 }
                 className={
@@ -2333,6 +2441,7 @@ function SiteHeader({ isHome = false }) {
                     ? 'page'
                     : undefined
                 }
+                onClick={() => setIsMobileMenuOpen(false)}
               >
                 {item}
               </a>
@@ -2488,12 +2597,18 @@ function ProjectDetailPage({ project }) {
   )
 }
 
-function ProjectsGrid({ items }) {
+function ProjectsGrid({ items, variant = 'default' }) {
+  const isFeatured = variant === 'featured'
+
   return (
-    <div className="projects-grid">
-      {items.map(({ file, title, slug }) => {
+    <div
+      className={`projects-grid${isFeatured ? ' projects-grid--featured' : ''}`}
+    >
+      {items.map(({ file, title, slug, category, year }) => {
         const card = (
-          <figure className="project-card">
+          <figure
+            className={`project-card${isFeatured ? ' project-card--featured' : ''}`}
+          >
             <div className="project-placeholder">
               <img
                 src={`/image/projects/${file}`}
@@ -2502,7 +2617,19 @@ function ProjectsGrid({ items }) {
                 decoding="async"
               />
             </div>
-            <figcaption>{title}</figcaption>
+            {isFeatured ? (
+              <figcaption>
+                <span className="project-card-heading">
+                  <span>{title}</span>
+                  {year && <span className="project-card-year">{year}</span>}
+                </span>
+                {category && (
+                  <span className="project-card-category">{category}</span>
+                )}
+              </figcaption>
+            ) : (
+              <figcaption>{title}</figcaption>
+            )}
           </figure>
         )
 
@@ -2540,32 +2667,122 @@ function ProjectsPage() {
 }
 
 function PortfolioHome() {
+  useEffect(() => {
+    const navigationEntry = window.performance
+      .getEntriesByType('navigation')
+      .at(0)
+    const isReload = navigationEntry?.type === 'reload'
+
+    if (isReload) {
+      if ('scrollRestoration' in window.history) {
+        window.history.scrollRestoration = 'manual'
+      }
+
+      window.history.replaceState(
+        null,
+        '',
+        `${window.location.pathname}${window.location.search}`,
+      )
+      window.dispatchEvent(new HashChangeEvent('hashchange'))
+
+      const previousScrollBehavior =
+        document.documentElement.style.scrollBehavior
+      document.documentElement.style.scrollBehavior = 'auto'
+      window.scrollTo(0, 0)
+
+      const animationFrame = window.requestAnimationFrame(() => {
+        window.scrollTo(0, 0)
+        document.documentElement.style.scrollBehavior = previousScrollBehavior
+      })
+
+      return () => window.cancelAnimationFrame(animationFrame)
+    }
+
+    const sectionId = window.location.hash.slice(1)
+
+    if (!['top', 'projects', 'about', 'contact'].includes(sectionId)) return
+
+    let animationFrame
+    let cancelled = false
+
+    document.fonts.ready.then(() => {
+      if (cancelled) return
+
+      animationFrame = window.requestAnimationFrame(() => {
+        document
+          .getElementById(sectionId)
+          ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      })
+    })
+
+    return () => {
+      cancelled = true
+      if (animationFrame) window.cancelAnimationFrame(animationFrame)
+    }
+  }, [])
+
   return (
     <div className="site-shell" id="top">
       <SiteHeader isHome />
 
       <main>
-        <section className="hero" aria-labelledby="hero-title">
-          <div className="hero-heading">
-            <p className="eyebrow reveal reveal-1">Creative / Graphic Designer</p>
-            <h1 id="hero-title" className="hero-title reveal reveal-2">
-              <span className="hero-title-line hero-title-line--ian">ian</span>
-              <span className="hero-title-line hero-title-line--tabinas">
-                tabinas
-              </span>
-            </h1>
+        <section
+          className="hero hero-editorial"
+          aria-labelledby="hero-title"
+        >
+          <div className="hero-editorial-grid" aria-hidden="true">
+            <span className="hero-editorial-axis hero-editorial-axis--vertical" />
+            <span className="hero-editorial-axis hero-editorial-axis--horizontal" />
           </div>
 
-          <div className="hero-intro reveal reveal-3">
-            <p>
-              Creating with intention. Designing with purpose. Helping ideas
-              become something meaningful.
-            </p>
+          <div className="hero-editorial-copy">
+            <h1
+              id="hero-title"
+              className="hero-editorial-title reveal reveal-1"
+            >
+              <span>Making</span>
+              <span>Ideas</span>
+              <span>Visible.</span>
+            </h1>
+
+            <div className="hero-editorial-intro reveal reveal-2">
+              <p className="hero-editorial-byline">
+                Ian Tabinas — Graphic Designer
+              </p>
+              <p className="hero-editorial-statement">
+                Creating with intention. Designing with purpose.
+              </p>
+            </div>
           </div>
+
+          <a
+            className="hero-editorial-talk reveal reveal-1"
+            href="#contact"
+          >
+            Let’s talk <span aria-hidden="true">↗</span>
+          </a>
+
+          <figure className="hero-editorial-image reveal reveal-3">
+            <img src="/image/about/profile.webp" alt="Ian Tabinas" />
+          </figure>
+
+          <a
+            className="hero-editorial-scroll reveal reveal-4"
+            href="#projects"
+          >
+            <span className="hero-editorial-scroll-icon" aria-hidden="true">
+              <svg viewBox="0 0 24 24" focusable="false">
+                <line x1="12" y1="1.5" x2="12" y2="22" />
+                <line x1="4.75" y1="14.75" x2="12" y2="22" />
+                <line x1="19.25" y1="14.75" x2="12" y2="22" />
+              </svg>
+            </span>
+            <span>Scroll to explore</span>
+          </a>
         </section>
 
         <section
-          className="featured-projects"
+          className="featured-projects featured-projects--home"
           id="projects"
           aria-labelledby="featured-projects-title"
         >
@@ -2573,16 +2790,18 @@ function PortfolioHome() {
             <h2
               id="featured-projects-title"
               className="featured-projects-title featured-projects-title--home"
+              aria-label="Featured Projects"
             >
-              Featured Project
+              <span>Featured</span>
+              <span>Projects</span>
             </h2>
 
-            <a className="view-all-projects" href="/projects">
-              View all →
+            <a className="featured-projects-view-all" href="/projects">
+              View all projects <span aria-hidden="true">↗</span>
             </a>
           </div>
 
-          <ProjectsGrid items={projects} />
+          <ProjectsGrid items={featuredProjects} variant="featured" />
         </section>
 
         <section className="about" id="about" aria-labelledby="about-title">
@@ -2593,7 +2812,7 @@ function PortfolioHome() {
           <div className="about-intro">
             <img
               className="about-profile"
-              src="/image/about/profile.webp"
+              src="/image/about/About.png"
               alt="Adrian Ian Tabinas"
               loading="lazy"
               decoding="async"
