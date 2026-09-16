@@ -362,6 +362,16 @@ a {
   transform: scaleX(1);
 }
 
+@media (min-width: 64.01rem) {
+  .wordmark {
+    width: clamp(5.5rem, 6.125vw, 6.125rem);
+  }
+
+  .nav-list a {
+    font-size: clamp(0.7109rem, 0.6563rem + 0.1925vw, 0.875rem);
+  }
+}
+
 /* Hero */
 .hero {
   position: relative;
