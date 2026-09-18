@@ -2365,6 +2365,41 @@ function SiteHeader({ isHome = false }) {
   }, [])
 
   useEffect(() => {
+    if (!isHome) return
+
+    const isMobileViewport = () =>
+      window.matchMedia('(max-width: 48rem)').matches
+
+    const sections = ['top', 'projects', 'about', 'contact']
+
+    const updateActiveSection = () => {
+      if (!isMobileViewport()) return
+
+      const navbarHeight = 5.75 * 16
+      const triggerPoint = window.innerHeight * 0.4
+
+      let current = ''
+
+      for (const id of sections) {
+        const el = document.getElementById(id)
+        if (el) {
+          const rect = el.getBoundingClientRect()
+          if (rect.top <= triggerPoint && rect.bottom > navbarHeight) {
+            current = id
+          }
+        }
+      }
+
+      setCurrentHash(current ? `#${current}` : '')
+    }
+
+    window.addEventListener('scroll', updateActiveSection)
+    updateActiveSection()
+
+    return () => window.removeEventListener('scroll', updateActiveSection)
+  }, [isHome])
+
+  useEffect(() => {
     if (!isMobileMenuOpen) return
 
     const previousBodyOverflow = document.body.style.overflow
