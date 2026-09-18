@@ -2749,23 +2749,36 @@ function PortfolioHome() {
       return undefined
     }
 
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return
+    let observer
+    let firstFrame
+    let secondFrame
 
-          entry.target.classList.add('is-visible')
-          observer.unobserve(entry.target)
-        })
-      },
-      {
-        rootMargin: '0px 0px -8% 0px',
-        threshold: 0.12,
-      },
-    )
+    firstFrame = window.requestAnimationFrame(() => {
+      secondFrame = window.requestAnimationFrame(() => {
+        observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (!entry.isIntersecting) return
 
-    revealElements.forEach((element) => observer.observe(element))
-    return () => observer.disconnect()
+              entry.target.classList.add('is-visible')
+              observer.unobserve(entry.target)
+            })
+          },
+          {
+            rootMargin: '0px 0px -8% 0px',
+            threshold: 0.01,
+          },
+        )
+
+        revealElements.forEach((element) => observer.observe(element))
+      })
+    })
+
+    return () => {
+      window.cancelAnimationFrame(firstFrame)
+      window.cancelAnimationFrame(secondFrame)
+      observer?.disconnect()
+    }
   }, [])
 
   return (
