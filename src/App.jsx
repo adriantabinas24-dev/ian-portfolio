@@ -2,6 +2,19 @@ import { useEffect, useState } from 'react'
 
 const navItems = ['Home', 'Projects', 'About', 'Contact']
 
+function UpRightArrow() {
+  return (
+    <svg
+      className="cta-arrow"
+      viewBox="0 0 20 20"
+      aria-hidden="true"
+      focusable="false"
+    >
+      <path d="M4.5 15.5 15.5 4.5M7 4.5h8.5V13" />
+    </svg>
+  )
+}
+
 const projects = [
   {
     file: 'wedge-bbq.jpg',
@@ -2602,7 +2615,11 @@ function ProjectsGrid({ items, variant = 'default' }) {
 
   return (
     <div
-      className={`projects-grid${isFeatured ? ' projects-grid--featured' : ''}`}
+      className={`projects-grid${
+        isFeatured
+          ? ' projects-grid--featured scroll-reveal scroll-reveal--delay-1'
+          : ''
+      }`}
     >
       {items.map(({ file, title, slug, category, year }) => {
         const card = (
@@ -2721,6 +2738,36 @@ function PortfolioHome() {
     }
   }, [])
 
+  useEffect(() => {
+    const revealElements = document.querySelectorAll('.scroll-reveal')
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+
+    if (reduceMotion || !('IntersectionObserver' in window)) {
+      revealElements.forEach((element) => element.classList.add('is-visible'))
+      return undefined
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return
+
+          entry.target.classList.add('is-visible')
+          observer.unobserve(entry.target)
+        })
+      },
+      {
+        rootMargin: '0px 0px -8% 0px',
+        threshold: 0.12,
+      },
+    )
+
+    revealElements.forEach((element) => observer.observe(element))
+    return () => observer.disconnect()
+  }, [])
+
   return (
     <div className="site-shell" id="top">
       <SiteHeader isHome />
@@ -2759,7 +2806,7 @@ function PortfolioHome() {
             className="hero-editorial-talk reveal reveal-1"
             href="#contact"
           >
-            Let’s talk <span aria-hidden="true">↗</span>
+            Let’s talk <UpRightArrow />
           </a>
 
           <figure className="hero-editorial-image reveal reveal-3">
@@ -2786,7 +2833,7 @@ function PortfolioHome() {
           id="projects"
           aria-labelledby="featured-projects-title"
         >
-          <div className="featured-projects-header">
+          <div className="featured-projects-header scroll-reveal">
             <h2
               id="featured-projects-title"
               className="featured-projects-title featured-projects-title--home"
@@ -2797,7 +2844,7 @@ function PortfolioHome() {
             </h2>
 
             <a className="featured-projects-view-all" href="/projects">
-              View all projects <span aria-hidden="true">↗</span>
+              View all projects <UpRightArrow />
             </a>
           </div>
 
@@ -2805,11 +2852,11 @@ function PortfolioHome() {
         </section>
 
         <section className="about" id="about" aria-labelledby="about-title">
-          <h2 className="about-title" id="about-title">
+          <h2 className="about-title scroll-reveal" id="about-title">
             About
           </h2>
 
-          <div className="about-intro">
+          <div className="about-intro scroll-reveal scroll-reveal--delay-1">
             <img
               className="about-profile"
               src="/image/about/About.png"
@@ -2824,7 +2871,7 @@ function PortfolioHome() {
             </p>
           </div>
 
-          <div className="about-copy">
+          <div className="about-copy scroll-reveal">
             <div className="about-copy-item">
               <span className="about-copy-label">01 / Philosophy</span>
               <p>
@@ -2860,7 +2907,7 @@ function PortfolioHome() {
           </div>
 
           <section
-            className="companies"
+            className="companies scroll-reveal"
             aria-labelledby="companies-title"
           >
             <h3 className="companies-title" id="companies-title">
@@ -2883,7 +2930,7 @@ function PortfolioHome() {
           id="contact"
           aria-labelledby="contact-title"
         >
-          <div className="contact-heading">
+          <div className="contact-heading scroll-reveal">
             <h2 className="contact-title" id="contact-title">
               Let’s make something great.
             </h2>
@@ -2894,10 +2941,13 @@ function PortfolioHome() {
             </p>
           </div>
 
-          <div className="contact-actions" aria-label="Contact options">
+          <div
+            className="contact-actions scroll-reveal scroll-reveal--delay-1"
+            aria-label="Contact options"
+          >
             <a className="contact-action" href="mailto:ianstudioph@gmail.com">
               <span>Email me</span>
-              <span aria-hidden="true">↗</span>
+              <UpRightArrow />
             </a>
 
             <a
@@ -2907,11 +2957,11 @@ function PortfolioHome() {
               rel="noreferrer"
             >
               <span>Book a call</span>
-              <span aria-hidden="true">↗</span>
+              <UpRightArrow />
             </a>
           </div>
 
-          <footer className="site-footer">
+          <footer className="site-footer scroll-reveal">
             <p>© 2026 Ian Tabinas</p>
 
             <nav className="social-links" aria-label="Social links">

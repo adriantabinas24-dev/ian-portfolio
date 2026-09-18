@@ -259,6 +259,18 @@ a {
   text-underline-offset: 0.18em;
 }
 
+.cta-arrow {
+  width: 1.05em;
+  height: 1.05em;
+  flex: 0 0 auto;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.45;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
 ::selection {
   background: var(--color-text);
   color: var(--color-background);
@@ -1222,6 +1234,10 @@ a {
     --section-space: 5rem;
   }
 
+  body {
+    overflow-x: clip;
+  }
+
   .site-header {
     position: relative;
     z-index: 50;
@@ -1280,11 +1296,11 @@ a {
   }
 
   .primary-navigation {
-    position: absolute;
+    position: fixed;
     z-index: 30;
-    top: 100%;
-    right: 0;
-    left: 0;
+    top: 5.75rem;
+    right: var(--page-gutter);
+    left: var(--page-gutter);
     padding: 1.25rem 0 1.75rem;
     border-top: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
@@ -2006,6 +2022,12 @@ a {
   }
 }
 
+@media (min-width: 64.01rem) and (max-height: 52rem) {
+  .hero-editorial-scroll {
+    transform: translateY(clamp(2rem, 5vh, 2.5rem));
+  }
+}
+
 @media (max-width: 64rem) {
   .hero.hero-editorial {
     grid-template-columns: minmax(0, 1.08fr) minmax(18rem, 0.92fr);
@@ -2318,5 +2340,42 @@ a {
   .project-card--featured figcaption {
     margin-top: 1rem;
     font-size: 1rem;
+  }
+}
+
+/* One-time homepage section reveals */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(1.75rem);
+  transition:
+    opacity 720ms cubic-bezier(0.22, 1, 0.36, 1),
+    transform 720ms cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+.scroll-reveal--delay-1 {
+  transition-delay: 90ms;
+}
+
+.scroll-reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+  will-change: auto;
+}
+
+.projects-grid.projects-grid--featured.scroll-reveal {
+  transform: translateY(1.75rem);
+}
+
+.projects-grid.projects-grid--featured.scroll-reveal.is-visible {
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal,
+  .projects-grid.projects-grid--featured.scroll-reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
   }
 }
