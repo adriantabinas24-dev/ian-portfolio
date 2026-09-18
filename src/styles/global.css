@@ -1605,7 +1605,7 @@ a {
   }
 
   .contact-title {
-    font-size: clamp(4rem, 18.5vw, 6.5rem);
+    font-size: clamp(4rem, 16.8vw, 5.62rem);
   }
 
   .contact-title,
@@ -1839,6 +1839,7 @@ a {
   flex-direction: column;
   align-items: flex-start;
   margin: 0;
+  overflow: hidden;
   color: var(--color-text);
   font-family: var(--font-display);
   font-size: clamp(7.5rem, 13.5vw, 13rem);
