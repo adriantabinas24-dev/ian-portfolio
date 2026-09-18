@@ -2743,6 +2743,9 @@ function PortfolioHome() {
     const reduceMotion = window.matchMedia(
       '(prefers-reduced-motion: reduce)',
     ).matches
+    const isMobileViewport = window.matchMedia(
+      '(max-width: 26.875rem)',
+    ).matches
 
     if (reduceMotion || !('IntersectionObserver' in window)) {
       revealElements.forEach((element) => element.classList.add('is-visible'))
@@ -2765,7 +2768,9 @@ function PortfolioHome() {
             })
           },
           {
-            rootMargin: '0px 0px -8% 0px',
+            rootMargin: isMobileViewport
+              ? '0px 0px -8% 0px'
+              : '0px 0px -22% 0px',
             threshold: 0.01,
           },
         )
