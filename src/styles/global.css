@@ -780,7 +780,6 @@ a {
   .companies-marquee {
     display: flex;
     align-items: center;
-    gap: 2rem;
     width: max-content;
     animation: marquee-slide 60s linear infinite;
   }
