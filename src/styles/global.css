@@ -795,6 +795,7 @@ a {
     width: 40rem;
     flex-shrink: 0;
     height: auto;
+    margin-right: 2rem;
   }
 }
 
