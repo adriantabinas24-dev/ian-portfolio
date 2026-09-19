@@ -2015,8 +2015,7 @@ a {
 
   .hero-editorial-copy {
     position: relative;
-    top: 2.5rem;
-    padding-top: clamp(2rem, 4vh, 4rem);
+    top: 3.5rem;
   }
 
   .hero-editorial-image {
