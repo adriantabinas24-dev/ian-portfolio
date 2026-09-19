@@ -2009,12 +2009,14 @@ a {
 
 @media (min-width: 90rem) {
   .hero-editorial-title {
+    max-width: 28ch;
     font-size: clamp(7.44rem, 12.09vw, 11.86rem);
   }
 
   .hero-editorial-copy {
     position: relative;
     top: 2.5rem;
+    padding-top: clamp(2.5rem, 4vh, 4rem);
   }
 
   .hero-editorial-image {
