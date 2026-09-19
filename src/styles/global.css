@@ -788,6 +788,11 @@ a {
   .companies-image:nth-child(2) {
     display: block;
   }
+
+  .companies-image {
+    height: 1.5rem;
+    width: auto;
+  }
 }
 
 @media (max-width: 47.99rem) and (prefers-reduced-motion: reduce) {
