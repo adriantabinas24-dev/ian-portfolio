@@ -784,7 +784,7 @@ a {
   .companies-marquee {
     display: flex;
     width: max-content;
-    animation: marquee-slide 50s linear infinite;
+    animation: marquee-slide 30s linear infinite;
   }
 
   .companies-image:nth-child(2) {
