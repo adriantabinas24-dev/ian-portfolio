@@ -772,24 +772,20 @@ a {
 }
 
 @keyframes marquee-slide {
-  from {
-    transform: translate3d(0, 0, 0);
-  }
-  to {
-    transform: translate3d(-50%, 0, 0);
-  }
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 @media (max-width: 47.99rem) {
+  .companies-image-frame {
+    overflow: hidden;
+  }
+
   .companies-marquee {
     display: flex;
-    align-items: center;
+    column-gap: 2rem;
     width: max-content;
     animation: marquee-slide 60s linear infinite;
-    animation-play-state: running;
-    will-change: transform;
-    transform: translate3d(0, 0, 0);
-    backface-visibility: hidden;
   }
 
   .companies-image:nth-child(2) {
@@ -797,8 +793,9 @@ a {
   }
 
   .companies-image {
-    height: 1.5rem;
-    width: auto;
+    width: 12rem;
+    flex-shrink: 0;
+    height: auto;
   }
 }
 
