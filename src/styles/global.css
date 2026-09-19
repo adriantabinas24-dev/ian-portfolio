@@ -786,6 +786,7 @@ a {
     align-items: center;
     width: max-content;
     animation: marquee-slide 60s linear infinite;
+    animation-play-state: running;
     will-change: transform;
     transform: translate3d(0, 0, 0);
     backface-visibility: hidden;
