@@ -783,7 +783,6 @@ a {
 
   .companies-marquee {
     display: flex;
-    column-gap: 2rem;
     width: max-content;
     animation: marquee-slide 60s linear infinite;
   }
@@ -793,7 +792,7 @@ a {
   }
 
   .companies-image {
-    width: 12rem;
+    width: 30rem;
     flex-shrink: 0;
     height: auto;
   }
