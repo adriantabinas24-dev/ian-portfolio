@@ -719,7 +719,7 @@ a {
 
 .companies-title {
   max-width: none;
-  font-size: clamp(2.75rem, 6vw, 6rem);
+  font-size: clamp(2.75rem, 6vw, 5rem);
   font-weight: 500;
   line-height: 0.92;
   letter-spacing: -0.035em;
@@ -761,6 +761,39 @@ a {
   width: 100%;
   height: auto;
   filter: none;
+}
+
+.companies-marquee {
+  display: contents;
+}
+
+.companies-image:nth-child(2) {
+  display: none;
+}
+
+@keyframes marquee-slide {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@media (max-width: 47.99rem) {
+  .companies-marquee {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    width: max-content;
+    animation: marquee-slide 60s linear infinite;
+  }
+
+  .companies-image:nth-child(2) {
+    display: block;
+  }
+}
+
+@media (max-width: 47.99rem) and (prefers-reduced-motion: reduce) {
+  .companies-marquee {
+    animation: none;
+  }
 }
 
 /* Contact */

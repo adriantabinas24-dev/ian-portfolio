@@ -2964,16 +2964,25 @@ function PortfolioHome() {
             aria-labelledby="companies-title"
           >
             <h3 className="companies-title" id="companies-title">
-              Companies I’ve Worked With
+              Brands & Companies I’ve Worked With
             </h3>
             <div className="companies-image-frame">
-              <img
-                className="companies-image"
-                src="/image/projects/company/company.webp"
-                alt="Companies Ian Tabinas has worked with"
-                loading="lazy"
-                decoding="async"
-              />
+              <div className="companies-marquee">
+                <img
+                  className="companies-image"
+                  src="/image/projects/company/company.png"
+                  alt="Companies Ian Tabinas has worked with"
+                  loading="lazy"
+                  decoding="async"
+                />
+                <img
+                  className="companies-image"
+                  src="/image/projects/company/company.png"
+                  alt="Companies Ian Tabinas has worked with"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
             </div>
           </section>
         </section>
