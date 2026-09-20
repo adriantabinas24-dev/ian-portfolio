@@ -1638,6 +1638,10 @@ a {
     padding-bottom: 2rem;
   }
 
+  .project-end-navigation {
+    display: none;
+  }
+
   .contact {
     padding-top: 5rem;
   }
