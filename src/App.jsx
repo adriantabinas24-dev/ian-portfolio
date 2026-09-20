@@ -2960,7 +2960,7 @@ function PortfolioHome() {
           </div>
 
           <section
-            className="companies scroll-reveal"
+            className="companies"
             aria-labelledby="companies-title"
           >
             <h3 className="companies-title" id="companies-title">
@@ -2970,14 +2970,14 @@ function PortfolioHome() {
               <div className="companies-marquee">
                 <img
                   className="companies-image"
-                  src="/image/projects/company/company.png"
+                  src="/image/projects/company/company-updated.png"
                   alt="Companies Ian Tabinas has worked with"
                   loading="lazy"
                   decoding="async"
                 />
                 <img
                   className="companies-image"
-                  src="/image/projects/company/company.png"
+                  src="/image/projects/company/company-updated.png"
                   alt="Companies Ian Tabinas has worked with"
                   loading="lazy"
                   decoding="async"
