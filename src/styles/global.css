@@ -773,7 +773,7 @@ a {
 
 @keyframes marquee-slide {
   0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-50%, 0, 0); }
+  100% { transform: translate3d(-73.6rem, 0, 0); }
 }
 
 @media (max-width: 47.99rem) {
@@ -783,7 +783,7 @@ a {
 
   .companies-marquee {
     display: flex;
-    width: max-content;
+    width: calc(2 * (69.6rem + 4rem));
     animation: marquee-slide 15s linear infinite;
     will-change: transform;
     backface-visibility: hidden;
