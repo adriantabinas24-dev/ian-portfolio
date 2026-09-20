@@ -772,8 +772,8 @@ a {
 }
 
 @keyframes marquee-slide {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 
 @media (max-width: 47.99rem) {
@@ -785,6 +785,8 @@ a {
     display: flex;
     width: max-content;
     animation: marquee-slide 15s linear infinite;
+    will-change: transform;
+    backface-visibility: hidden;
   }
 
   .companies-image:nth-child(2) {
