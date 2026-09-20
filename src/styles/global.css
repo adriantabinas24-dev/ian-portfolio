@@ -784,9 +784,6 @@ a {
   .companies-marquee {
     display: flex;
     width: calc(2 * (69.6rem + 4rem));
-    animation: marquee-slide 15s linear infinite;
-    will-change: transform;
-    backface-visibility: hidden;
   }
 
   .companies-image:nth-child(2) {

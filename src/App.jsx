@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
 const navItems = ['Home', 'Projects', 'About', 'Contact']
 
@@ -2719,6 +2719,8 @@ function ProjectsPage() {
 }
 
 function PortfolioHome() {
+  const companiesMarqueeRef = useRef(null)
+
   useEffect(() => {
     const navigationEntry = window.performance
       .getEntriesByType('navigation')
@@ -2819,6 +2821,38 @@ function PortfolioHome() {
       window.cancelAnimationFrame(secondFrame)
       observer?.disconnect()
     }
+  }, [])
+
+  useEffect(() => {
+    const marquee = companiesMarqueeRef.current
+    if (!marquee) return
+
+    const isMobile = window.matchMedia('(max-width: 47.99rem)').matches
+    if (!isMobile) return
+
+    const reduceMotion = window.matchMedia(
+      '(prefers-reduced-motion: reduce)',
+    ).matches
+    if (reduceMotion) return
+
+    const img = marquee.querySelector('.companies-image')
+    if (!img) return
+
+    const style = getComputedStyle(img)
+    const unitWidth = parseFloat(style.width) + parseFloat(style.marginRight)
+    const pxPerMs = unitWidth / 15000
+
+    let startTime = null
+
+    function animate(timestamp) {
+      if (!startTime) startTime = timestamp
+      const position = ((timestamp - startTime) * pxPerMs) % unitWidth
+      marquee.style.transform = `translateX(${-position}px)`
+      window.requestAnimationFrame(animate)
+    }
+
+    const id = window.requestAnimationFrame(animate)
+    return () => window.cancelAnimationFrame(id)
   }, [])
 
   return (
@@ -2967,7 +3001,7 @@ function PortfolioHome() {
               Brands & Companies I’ve Worked With
             </h3>
             <div className="companies-image-frame">
-              <div className="companies-marquee">
+              <div className="companies-marquee" ref={companiesMarqueeRef}>
                 <img
                   className="companies-image"
                   src="/image/projects/company/company-updated.png"
