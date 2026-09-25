@@ -3090,8 +3090,13 @@ function App() {
     : null
   const project = projectSlug ? projectDetails[projectSlug] : null
 
-  if (path === '/projects') {
+  if (path === '/projects' || path === '/project') {
     return <ProjectsPage />
+  }
+
+  if (path === '/about' || path === '/contact' || path === '/home') {
+    const hash = path === '/home' ? '/' : '/#' + path.slice(1)
+    window.history.replaceState(null, '', hash)
   }
 
   return project ? <ProjectDetailPage project={project} /> : <PortfolioHome />
